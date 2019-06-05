@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* CSS Document */
+  body{
+            background-image:url(../img/sss.png);
+            background-repeat:no-repeat;
+            background-attachment:fixed;
+            background-position:center;
+			background-size: 100% 100%;
+        }
+		.head{
+            margin: 100px auto;
+            padding: 15px;
+            width: 250px;
+            height:475px;
+            background:rgba(225,251,240,0.2);
+            border-radius: 6%;
+        }
+        /*强制转换字体颜色*/
+        input::-webkit-input-placeholder{
+            color:snow;
+        }
+		input {
+        width: 200px;
+        display: block;
+        margin: 30px auto;
+        padding: 10px;
+        text-align: left;
+        border: 1px solid snow;
+        border-radius: 5px;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 18px;
+        color: whitesmoke;
+        outline: none;
+        background:rgba(225,251,240,0.1);
+    }
+    button {
+        width: 200px;
+        margin: 13px;
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 18px;
+        float: right;
+        border: 1px solid snow;
+        outline: none;
+        background:rgba(225,251,240,0.2);
+    }
+    input:focus {
+        box-shadow: 0px 0px 100px #FFFFFF;
+        background:rgba(225,251,240,0.3);
+    }
+    button:hover{
+        background:rgba(225,251,240,0.3);
+    }

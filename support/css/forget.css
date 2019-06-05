@@ -1,0 +1,67 @@
+@charset "utf-8";
+/* CSS Document */
+ body{
+              background-image:url(../img/sss.png);
+              background-repeat:no-repeat;
+              background-attachment:fixed;
+              background-position:center;
+			  background-size: 100% 100%;
+          }
+          .head{
+            margin: 100px auto;
+            padding: 15px;
+            width: 250px;
+            height:300px;
+            background:rgba(225,251,240,0.2);
+            border-radius: 6%;
+        }
+        /*强制转换字体颜色*/
+        input::-webkit-input-placeholder{
+            color:snow;
+        }
+		   input {
+          width: 200px;
+          display: block;
+          margin: 30px auto;
+          padding: 10px;
+          text-align: left;
+          border: 1px solid wheat;
+          border-radius: 5px;
+          font-family: 'Source Sans Pro', sans-serif;
+          font-size: 18px;
+          outline: none;
+          background:rgba(225,251,240,0.5);
+      }
+      button {
+          width: 200px;/*设置按钮的长度*/
+          margin: 13px;
+          padding: 10px;
+          border-radius: 10px;
+          text-align: center;
+          font-family: 'Source Sans Pro', sans-serif;
+          font-size: 18px;
+          float: right;
+          border: 1px solid wheat;
+          outline: none;
+          background:rgba(225,251,240,0.5);
+      }
+      input:focus {
+          border: 2px solid #fff;
+          box-shadow: 0px 0px 100px #FFFFFF;
+          background-color: #333333;
+      }
+      button:hover{
+          background-color: #5E5E5E;
+      }
+		  .he{
+			  width: 250px;
+			  height: 35px;
+		  }
+		  .zi1{
+			  width: 65px;
+			  float: left;
+		  }
+		  .zi2{
+			  width: 65px;
+			  float: right;
+		  }
