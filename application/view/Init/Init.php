@@ -7,5 +7,5 @@
 		<p style="font-size:20px;color:slateblue;font-family:'微软雅黑';">向美好前进！</p>
 	</div>
 	<div class="btned">
-	<button type="button" onClick="javascript:window.open('init/login','_self');">登陆</button>
+	<button type="button" onClick="javascript:window.open('<?php echo APP_URL."init/login";  ?>','_self');">登陆</button>
 	</div>

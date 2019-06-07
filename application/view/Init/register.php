@@ -41,7 +41,7 @@
 		}
 	</script>
 <div class="head">
-	<form action="" name="myForm" method="post" onSubmit="return checkData()">
+	<form action="<?php echo APP_URL.'/init/doregister';?>" name="myForm" method="post" onSubmit="return checkData()">
     <input type="text" name="userName" placeholder="学号/工号:" required class="form-control"/>
     <input type="password" name="password" placeholder="密码:" required class="form-control"/>
     <input type="password" name="repassword" placeholder="确认密码:" required class="form-control"/>

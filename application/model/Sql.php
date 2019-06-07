@@ -13,7 +13,7 @@ class Sql
             exit('數據庫連接錯誤: '.$e->getMessage());
         }
     }
-    // 查詢*
+    // 全查詢*
     public function selectAll()
     {
         $sql = sprintf("select * from `%s`", $this->table);
@@ -22,18 +22,17 @@ class Sql
         return $sth->fetchAll();
     }
     // 條件全查詢
-    public function selectWAll($id)
+    public function selectWAll($name, $id)
     {
-        $sql = sprintf("select * from `%s` where `no` = '%d'", $this->table, $id);
+        $sql = sprintf("select * from `%s` where `%s` = '%d'", $this->table, $name, $id);
         $sth = $this->dbHandle->prepare($sql);
         $sth->execute();
         return $sth->fetch();
     }
     // 條件單查詢
-    public function selectWOne($name, $id)
+    public function selectWOne($item, $name, $id)
     {
-        var_dump($this->dbHandle);
-        $sql = sprintf("select `%s` from `%s` where `id` = '%s'", $name, $this->table, $id);
+      	$sql = sprintf("select `%s` from `%s` where `%s` = '%s'", $item, $this->table, $name, $id);
         $sth = $this->dbHandle->prepare($sql);
         $sth->execute();
         return $sth->fetch();
@@ -51,7 +50,6 @@ class Sql
     {
         $sth = $this->dbHandle->prepare($sql);
         $sth->execute();
-        echo "</br>";
         //var_dump($sth->errorInfo());
         return $sth->rowCount();
     }
@@ -62,10 +60,9 @@ class Sql
         return $this->query($sql);
     }
     // 數據修改
-    public function update($id, $data)
+    public function update($data, $idName, $id)
     {
-        $sql = sprintf("update `%s` set %s where `no` = '%s'", $this->table, $this->formatUpdate($data), $id);
-        //var_dump($sql);
+        $sql = sprintf("update `%s` set %s where `%s` = '%s'", $this->table, $this->formatUpdate($data), $idName, $id);
         return $this->query($sql);
     }
     // 將數組轉換插入格式的sql語句

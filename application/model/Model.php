@@ -11,8 +11,7 @@ class Model extends Sql
     }
     public function isloged()
     {
-        (new User)->login(); 
-
+        return (new User)->isloged(); 
     }
     function __destruct()
     {

@@ -14,6 +14,7 @@ body, html {
 /*定位居中*/
 .middle {
     position: absolute;
+    z-index: 10;
     left: 50%;
     top: 50%;
     -webkit-transform: translate(-50%, -50%);
@@ -86,7 +87,12 @@ s, i, em, u {
 }
 
 #menu {
+  max-width: 1200px;  
+  min-width: 600px;  
   overflow: hidden;
+  position: fixed;
+  left: 0%;
+  top: 8%;
   height: 100%;
   float: left;
   -webkit-touch-callout: none;

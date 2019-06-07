@@ -1,58 +1,96 @@
 <?php
-class User extends Model
+class User extends Sql
 {
 	protected $model;
 	protected $table;
 	function __construct()
 	{
-		$this->connect(DB_HS, DB_UE, DB_PW, DB_NM); // 數據庫連接
+      $this->connect(DB_HS, DB_UE, DB_PW, DB_NM); // 數據庫連接
 	  $this->model = rtrim(get_class($this), 'Model'); 
 	  $this->table = strtolower($this->model);    // 小寫表名與類名一致
 	}
+  	// 判斷是否一登陸
+  	public function isloged()
+	{
+		if (array_key_exists("id", $_SESSION) && array_key_exists("token", $_SESSION)) {
+			if ($_SESSION['token'] == $this->checkToken($_SESSION['id'])) {
+				return true;
+			} else 
+				return false;
+		} else 
+			return false;
+	}
+  	// 登錄操作
 	public function login()
 	{
-		//echo "</br>";
-		//var_dump($this->table);
-      	$session = $_SESSION;
-      	if (array_key_exists("id", $_SESSION)) {
-          if ($_SESSION['id'] == $this->checkToken($_SESSION['id'])) {
-              return 1;
-          }
-        }
-		// else {
-		// 	if(true)//$id = $_SESSION['id'])
-		// 	  $this->selectWOne("password", "1");
-		// }
-
-		// $this->table = "users";
-		// $result = $this->selectWAll("1");
-		// $_SESSION['id'] = $_SESSION['id'] + 1;
-		// var_dump($result['time']);
-		// $time = date("Y-m-d H:i:s", time());
-		// $token_key = $result['no'].$time.$result['ps'];
-		// //var_dump($token_key);
-		// //var_dump(sha1($token_key));
-		// $a = array('time' => "now()");
-		// $this->update("1", $a);
-		// var_dump($this->model);
+		if ($this->isloged()) 
+			return true;
 		else {
-			$a = array('time' => "now()");
-			$this->update("1", $a);
-			$_SESSION['token'] = $this->getToken("1");
-			$_SESSION['id'] = 1;
+			$id = $_POST['userName']; 
+			$rs = $this->selectWAll("id", $id);
+			$pw = $this->getPs($_POST['password']);
+			if ( $rs['ps'] == $pw ) {
+				$time = array('time' => "now()");
+				$this->update($time, "no", $rs['no']);
+				$info = $this->selectWAll("no", $rs['no']);
+				$_SESSION['token'] = $this->getToken($rs['no'].$info['time'].$rs['ps']);
+				$_SESSION['id'] = $rs['no'];
+				$_SESSION['identity'] = $info['identity'];
+			}
 		}
-	}
-
-	public function checkToken($id)
+    }
+	// 注冊操作
+  	public function register()
 	{
-		return $this->getToken($this->selectWAll($id));
+		extract($_POST); //$userName//$password==$repassword//$select1//$tel
+		switch ($select1) {
+			case '1':
+				$ident = "student";
+				break;
+			case '2':
+				$ident = "teacher";
+				break;
+			case '3':
+				$ident = "counsellor";
+				break;
+			case '4':
+				$ident = "door";
+				break;
+			default:
+				return false;
+				break;
+        }
+        $this->table = $ident;
+        if (!$this->selectWAll("no", $userName))
+          	return false;
+        $this->table = "user";
+        $arr = array('identity' => $select1,
+                     'ps' => md5($password),
+                     'tel' => $tel,
+                     'id' => $userName,
+                     'time' => "now()" );
+        return $this->add($arr);
+    }
+  	// 檢驗token
+ 	public function fetchUser($identity) 
+	{	
+		return $this->selectWnAll("identity", $identity);
+	}
+  
+	private function checkToken($id)
+	{
+		$result = $this->selectWAll("no", $id);
+		$token_key = $result['no'].$result['time'].$result['ps'];
+		return $this->getToken($token_key);
 	}	
 
-	private function getToken($id)
+	private function getToken($string)
 	{
-		$result = $this->selectWAll($id);
-				//var_dump($result);
-		$token_key = $result['no'].$result['time'].$result['ps'];
-		return sha1($token_key);
+		return sha1($string);
+	}
+
+	private function getPs($string)
+	{
+		return md5($string);
 	}
 }

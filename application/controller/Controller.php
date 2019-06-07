@@ -5,16 +5,41 @@
 class Controller
 {
     protected $controller;
-    protected $methodName;
+    public $methodName;
     protected $view;
-    protected $token;
+    protected $causeName;
+    static protected $token;
     // 構造函數 進行初始化
-    function __construct($_controller, $_methodName)
+    function __construct($_controller, $_methodName, $_causeName = "init")
     {
         session_start();
-        $this->isloged();
+        $this->causeName = $_causeName;
         $this->controller = $_controller;
         $this->methodName = $_methodName;
+        self::$token = (new Model)->isloged();
+        switch ($_causeName) {
+            case 'init':
+                if (self::$token)  {
+                    $_methodName = "loged";
+                  	$this->methodName = $_methodName;
+                }
+                break;
+            case 'moca':
+                if (!self::$token) {
+                    $_controller = "Init";
+                    $_methodName = "nonlogin";
+                }
+                break;
+            case 'api':
+                if (!self::$token) {
+                    $_controller = "Api";
+                    $_methodName = $this->methodName= "nonlogin";
+                }
+                break;
+            default:
+            	die("404 Forbidden！");
+                break;
+        }
         $this->view = new View($_controller, $_methodName);
 
     }
@@ -26,7 +51,7 @@ class Controller
     //登陸檢查
     public function isloged()
     {
-        (new MocaModel)->isloged();
+        return (new Model)->isloged();
     }
 	//URL錯誤處理提示
     public function error()

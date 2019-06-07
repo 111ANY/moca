@@ -49,8 +49,8 @@ class Core
     // 路由處理
     function Route()
     {
-        $controllerName = 'init';
-        $methodName = 'init';
+        $controllerName = 'Init';
+        $methodName = 'Init';
         if (!empty($_GET['url'])) { //路徑處理
             $url = strtolower($_GET['url']);
             $urlArray = explode('/', $url);
@@ -65,7 +65,7 @@ class Core
         if (!(int)method_exists($controller, $methodName))            // 判斷控制器與方法名存在
             $methodName = "error";
         $dispatch = new $controller($controllerName, $methodName);
-        call_user_func_array(array($dispatch, $methodName), $queryString);//回調 調用方法傳參
+        call_user_func_array(array($dispatch, $dispatch->methodName), $queryString);//回調 調用方法傳參
     }
 
     // 自動加載控制器模型視圖
@@ -78,8 +78,8 @@ class Core
         file_exists($model) ? include $model : $model = false;
         file_exists($view) ? include $view : $view = false;
         if (!$controller && !$model && !$view) {
-            $controller = "MocaController";
-            $dispatch = new $controller("Moca", "error");
+            $controller = "InitController";
+            $dispatch = new $controller("Init", "error");
             call_user_func_array(array($dispatch, "error"), array());
         }
     }

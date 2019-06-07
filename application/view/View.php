@@ -11,7 +11,7 @@ class View
     function __construct($_controller, $_methodName)
     {
         $this->controller = $_controller;
-        $this->methodName = $_methodName;
+        $this->methodName = strtolower($_methodName);
     }
     // 變量分配
     function assign($name, $value)
@@ -21,6 +21,9 @@ class View
     // 顯示渲染
     function render()
     {
+      if ($this->controller == "Api") {
+        include (APP_P.'application/view/Api/init.php');
+      } else {
         extract($this->variables);
         $defaultMenuCSS = APP_P.'support/css/menu.css';
         $defaultMenuJS = APP_P.'support/js/menu.js';
@@ -39,7 +42,8 @@ class View
         file_exists($conMenu) ? include ($conMenu) : include ($defaultMenu);  //菜單
         $MenuCSS = file_exists($conMenuCSS) ? $conMenuCSS : $defaultMenuCSS;  //菜單樣式
         $MenuJS = file_exists($conMenuJS) ? $conMenuJS : $defaultMenuJS;  //菜單JS
-        include (APP_P.'application/view/'.$this->controller.'/'.$this->methodName.'.php');
+        require APP_P.'application/view/'.ucfirst($this->controller).'/'.$this->methodName.'.php';
         file_exists($conFooter) ? include ($conFooter) : include ($defaultFooter);  //頁脚
+      }
     }
 }
